@@ -7,7 +7,7 @@ spec:
   - ReadWriteOnce
   resources:
     requests:
-      storage: 10Gi # Storage Limit
+      storage: 10Gi # CHANGEME Storage Limit
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -26,14 +26,14 @@ spec:
         k8s-app: apps.code-server-{{ID}}
     spec:
       containers:
-      - image: natrium233/code-server-ice3302p:4.7.0
+      - image: davidliyutong/code-server-ice3302p:4.7.0 # CHANGEME
         imagePullPolicy: IfNotPresent
         name: container-0
         ports:
         - containerPort: 8080
           name: 8080tcp
           protocol: TCP
-        resources:
+        resources: # CHANGEME
           limits:
             cpu: "4"
             memory: 4Gi
@@ -80,7 +80,7 @@ metadata:
 spec:
   ingressClassName: public
   rules:
-  - host: coder.ice3302p.xyz
+  - host: example.org # CHANGEME
     http:
       paths:
       - backend:
@@ -92,5 +92,5 @@ spec:
         pathType: Prefix
   tls:
   - hosts:
-    - coder.ice3302p.xyz
-    secretName: coder-ice3302p-xyz-tls # TLS Secret
+    - example.org # CHANGEME hostname
+    secretName: tls-example-org # CHANGEME TLS Secret
