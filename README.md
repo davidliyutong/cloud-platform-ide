@@ -64,6 +64,12 @@ Basically, the container provide an interface of code-server.
 
 To reboot container, kill the daemon process inside container.
 
+```shell
+kill $(ps -ef|grep "/usr/bin/lib/node /usr/bin --config /root/.config/code-server/config.yaml" |grep -v grep |awk '{print $2}')
+```
+
+> `alias restart-container="kill $(ps -ef|grep "/usr/bin/lib/node /usr/bin --config /root/.config/code-server/config.yaml" |grep -v grep |awk '{print $2}')"` could be added to shell profile
+
 > Warning: currently, this will remove every plugin installed.
 
 ## Reset the container
