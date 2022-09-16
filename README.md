@@ -70,15 +70,13 @@ kill $(ps -ef|grep "/usr/bin/lib/node /usr/bin --config /root/.config/code-serve
 
 > `alias restart-container="kill $(ps -ef|grep "/usr/bin/lib/node /usr/bin --config /root/.config/code-server/config.yaml" |grep -v grep |awk '{print $2}')"` could be added to shell profile
 
-> Warning: currently, this will remove every plugin installed.
-
 ## Reset the container
 
 The `home` directory will be packed copied to `/tmp/home.tar` of the container. During the initialization The entry script `docker-entrypoint.sh` will check the existence of `/root/.config/code-server/CONFIGURED`. If this file does not exist, the script will extrat the content of `/tmp/home.tar` to `/root`, which will overwrite `/root/.config`.
 
 To reset the container, simply perform delete `/root/.config/code-server/CONFIGURED` in the container and reboot the container.
 
-> Warning: currently, this will remove every plugin installed and reset password.
+> Warning: this will reset password to default
 
 ## Change password
 
