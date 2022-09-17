@@ -76,6 +76,7 @@ kind: Ingress
 metadata:
   annotations: 
     nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/proxy-body-size: "4096M"
   name: coder-server-ingress-{{ID}}
 spec:
   ingressClassName: public

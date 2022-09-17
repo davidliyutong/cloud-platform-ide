@@ -35,14 +35,14 @@ if [[ ! -d "home" ]]; then
     touch home/.config/code-server/CONFIGURED
 
     # Download oh-my-zsh package
-    if [[ $# -gt 2 ]]; then
-        OH_MY_ZSH_DOWNLOAD_URL=$3
-        echo "Downloading oh-my-zsh package from $OH_MY_ZSH_DOWNLOAD_URL"
-    fi
-    if [[ -n "$OH_MY_ZSH_DOWNLOAD_URL" ]]; then
-        wget $OH_MY_ZSH_DOWNLOAD_URL -O oh-my-zsh.tar
-        tar -xf oh-my-zsh.tar -C ./home
-    fi
+    # if [[ $# -gt 2 ]]; then
+    #     OH_MY_ZSH_DOWNLOAD_URL=$3
+    #     echo "Downloading oh-my-zsh package from $OH_MY_ZSH_DOWNLOAD_URL"
+    # fi
+    # if [[ -n "$OH_MY_ZSH_DOWNLOAD_URL" ]]; then
+    #     wget $OH_MY_ZSH_DOWNLOAD_URL -O oh-my-zsh.tar
+    #     tar -xf oh-my-zsh.tar -C ./home
+    # fi
 fi
 
 # Build template render

@@ -13,19 +13,12 @@
     Usage:
 
     ```shell
-    ./scripts/bootstrap.sh <arch> <version> <oh-my-zsh-url>
+    ./scripts/bootstrap.sh <arch> <version>
     ```
 
     e.g.
 
     ```shell
-    ./scripts/bootstrap.sh amd64 4.7.0 https://example.org/oh-my-zsh.tar
-    ```
-
-    or
-
-    ```shell
-    export OH_MY_ZSH_DOWNLOAD_URL=https://example.org/oh-my-zsh.tar
     ./scripts/bootstrap.sh amd64 4.7.0
     ```
 
@@ -43,12 +36,10 @@
 
     ```text
     home
-    ├── .config
-    │   └── code-server
-    │       ├── CONFIGURED
-    │       └── config.yaml
-    ├── .oh-my-zsh  # If $OH_MY_ZSH_DOWNLOAD_URL is set
-    └── .zshrc      # If $OH_MY_ZSH_DOWNLOAD_URL is set
+    └── .config
+        └── code-server
+            ├── CONFIGURED
+            └── config.yaml
     ```
 
 2. Step 2: `script/build.sh`

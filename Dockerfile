@@ -11,6 +11,7 @@ RUN sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list &
 RUN apt-get update && apt-get install -y \
     python3 \
     python3-pip \
+    git \
     htop \
     vim \
     wget \
@@ -44,7 +45,7 @@ RUN apt-get clean && \
     apt-get autoclean && \
     rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
 
-COPY home.tar /tmp/home.tar
+COPY home.tar.gz /tmp/home.tar.gz
 COPY docker-entrypoint.sh /usr/bin/docker-entrypoint.sh
 RUN chmod +x /usr/bin/docker-entrypoint.sh && chsh -s /bin/zsh
 
