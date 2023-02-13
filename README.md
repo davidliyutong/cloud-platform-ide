@@ -1,4 +1,4 @@
-# code-server-ice3302p
+# code-server-speit
 
 ## Introduction
 
@@ -121,7 +121,7 @@ spec:
         k8s-app: apps.code-server-{{ID}}
     spec:
       containers:
-      - image: davidliyutong/code-server-ice3302p:4.7.0 # CHANGEME
+      - image: davidliyutong/code-server-speit:v4.9.1  # CHANGEME
         imagePullPolicy: IfNotPresent
         name: container-0
         ports:

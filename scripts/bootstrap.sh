@@ -29,10 +29,7 @@ fi
 
 # Make up ./home directory
 if [[ ! -d "home" ]]; then
-    echo "Creating home directory"
-    mkdir -p home/.config/code-server
-    echo -ne 'bind-addr: 0.0.0.0:8080\nauth: password\npassword: changeme\ncert: false' > home/.config/code-server/config.yaml
-    touch home/.config/code-server/CONFIGURED
+    cp -a manifests/home/ home/
 
     # Download oh-my-zsh package
     # if [[ $# -gt 2 ]]; then

@@ -38,14 +38,21 @@ RUN apt-get update && apt-get install -y \
     openssh-client \
     openssh-server
 
+RUN wget --quiet https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /tmp/miniconda.sh && \
+    /bin/bash /tmp/miniconda.sh -b -p /opt/miniconda3 && \
+    rm /tmp/miniconda.sh
+
 COPY ./code-server.tar.gz /tmp/code-server.tar.gz
-RUN tar -zxf /tmp/code-server.tar.gz -C /usr/bin/ --strip-components=1
+RUN mkdir /usr/lib/code-server && \
+    tar -zxf /tmp/code-server.tar.gz -C /usr/lib/code-server --strip-components=1 && \
+    rm /tmp/code-server.tar.gz && \
+    ln -s /usr/lib/code-server/bin/code-server /usr/bin/code-server
 
 RUN apt-get clean && \
     apt-get autoclean && \
     rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
 
-COPY home.tar.gz /tmp/home.tar.gz
+COPY home.tar.gz /opt/home.tar.gz
 COPY docker-entrypoint.sh /usr/bin/docker-entrypoint.sh
 RUN chmod +x /usr/bin/docker-entrypoint.sh && chsh -s /bin/zsh
 

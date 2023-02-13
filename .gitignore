@@ -1,3 +1,5 @@
-home
+/home
+
 *.tar*
 *.csv
+*.DS_Store
