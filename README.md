@@ -1,5 +1,7 @@
 # code-server-speit
 
+Code server for SPEIT C/C++ Programming course
+
 ## Introduction
 
 - Supported code-server versions: 3.12.0 - 4.7.0
