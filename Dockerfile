@@ -56,10 +56,10 @@ COPY manifests/install-scripts/setup-digital.sh /tmp/setup-digital.sh
 RUN /bin/bash /tmp/setup-digital.sh
 
 # Misc
-COPY .cache/home.tar.gz /opt/home.tar.gz
-COPY manifests/install-scripts/docker-entrypoint.sh /usr/bin/docker-entrypoint.sh
-COPY supervisord.conf.diff /tmp/supervisord.conf.diff
-RUN chmod +x /usr/bin/docker-entrypoint.sh && \
+COPY .cache/home.tar.xz /opt/home.tar.xz
+COPY manifests/install-scripts/run-coder.sh /usr/bin/run-coder.sh
+COPY manifests/supervisord.conf.diff /tmp/supervisord.conf.diff
+RUN chmod +x /usr/bin/run-coder.sh && \
     chsh -s /bin/zsh && \
     mkdir -p /var/log/supervisor && \
     cat /tmp/supervisord.conf.diff >> /etc/supervisor/conf.d/supervisord.conf
@@ -71,6 +71,6 @@ RUN apt-get clean && \
 
 
 WORKDIR /root
-EXPOSE 8080
+EXPOSE 3000 80
 CMD ["/usr/bin/supervisord"]
 # ENTRYPOINT  [ "sh", "-c", "/usr/bin/docker-entrypoint.sh" ]

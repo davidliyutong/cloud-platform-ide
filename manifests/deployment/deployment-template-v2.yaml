@@ -30,11 +30,11 @@ spec:
         imagePullPolicy: IfNotPresent
         name: container-0
         ports:
-        - containerPort: 8080
-          name: 8080tcp
+        - containerPort: 3000
+          name: 3000tcp
           protocol: TCP
-        - containerPort: 6080
-          name: 6080tcp
+        - containerPort: 80
+          name: 80tcp
           protocol: TCP
         resources: # CHANGEME
           limits:
@@ -65,14 +65,14 @@ metadata:
   name: code-server-svc-${{ ID }}
 spec:
   ports:
-  - name: 8080tcp
-    port: 8080
+  - name: 3000tcp
+    port: 3000
     protocol: TCP
-    targetPort: 8080
-  - name: 6080tcp
+    targetPort: 3000
+  - name: 6080tcp80
     port: 6080
     protocol: TCP
-    targetPort: 6080
+    targetPort: 80
   selector:
     k8s-app: apps.code-server-${{ ID }}
   sessionAffinity: None
@@ -94,7 +94,7 @@ spec:
           service:
             name: code-server-svc-${{ ID }}
             port:
-              number: 8080
+              number: 3000
         path: /
         pathType: Prefix
   - host: ${{ ID }}.${{ VNC_HOSTNAME }} # CHANGEME
