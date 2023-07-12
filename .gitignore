@@ -3,3 +3,7 @@
 *.tar*
 *.csv
 *.DS_Store
+
+.cache
+
+build/*

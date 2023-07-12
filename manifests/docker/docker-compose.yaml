@@ -1,0 +1,27 @@
+version: '3'
+services:
+  ide:
+    image: davidliyutong/code-server-speit:dev
+#    image: psharkey/netbeans-8.1:latest
+    # environment:
+    #   - DISPLAY=novnc:0.0
+    # depends_on:
+    #   - novnc
+    # networks:
+    #   - debug-container
+    ports:
+      - 3000:8080
+      - 6080:80
+#   novnc:
+#     image: theasp/novnc:latest
+#     environment:
+#       # Adjust to your screen size
+#       - DISPLAY_WIDTH=1600
+#       - DISPLAY_HEIGHT=968
+#       - RUN_XTERM=no
+#     ports:
+#       - "8080:8080"
+#     networks:
+#       - debug-container
+# networks:
+#   debug-container:

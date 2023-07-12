@@ -64,7 +64,7 @@ func main() {
             return
         }
         for idx := 0; idx < *index_range; idx++ {
-            template_string_tmp := strings.Replace(template_string, "{{ID}}", fmt.Sprintf("%s%03d", *prefix, idx), -1)
+            template_string_tmp := strings.Replace(template_string, "${{ ID }}", fmt.Sprintf("%s%03d", *prefix, idx), -1)
             err = ioutil.WriteFile(fmt.Sprintf("deployment-%03d.yaml", idx), []byte(template_string_tmp), 0644)
             if err != nil {
                 fmt.Println("Write file err, err =", err)

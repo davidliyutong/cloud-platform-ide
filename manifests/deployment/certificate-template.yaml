@@ -1,0 +1,23 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: ${{ CODE_TLS_SECRET }}-certificate
+spec:
+  secretName: ${{ CODE_TLS_SECRET }}
+  dnsNames: #dnsNames 指示该证书的可以用于哪些域名
+  - "*.${{ CODE_HOSTNAME }}"
+  issuerRef:
+    name: letsencrypt-cf-dns
+    kind: ClusterIssuer
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: ${{ VNC_TLS_SECRET }}-certificate
+spec:
+  secretName: ${{ VNC_TLS_SECRET }}
+  dnsNames: #dnsNames 指示该证书的可以用于哪些域名
+  - "*.${{ VNC_HOSTNAME }}"
+  issuerRef:
+    name: letsencrypt-cf-dns
+    kind: ClusterIssuer

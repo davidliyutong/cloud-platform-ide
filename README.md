@@ -15,19 +15,19 @@ Code server for SPEIT C/C++ Programming course
     Usage:
 
     ```shell
-    ./scripts/bootstrap.sh <arch> <version>
+    ./scripts/build/bootstrap.sh <arch> <version>
     ```
 
     e.g.
 
     ```shell
-    ./scripts/bootstrap.sh amd64 4.7.0
+    ./scripts/build/bootstrap.sh amd64 4.7.0
     ```
 
     or
 
     ```shell
-    ./scripts/bootstrap.sh
+    ./scripts/build/bootstrap.sh
     ```
 
     > This will download latest release for amd64
@@ -201,10 +201,10 @@ kubectl apply -f deployment/deployment.id.yaml -n <namespace>
 
 ### render
 
-`scripts/render.go` provide a simple render of template that can replace `{{ID}}` with from `csv` file or integers. For example
+`scripts/crd/render.go` provide a simple render of template that can replace `{{ID}}` with from `csv` file or integers. For example
 
 ```shell
-go build scripts/render.go
+go build scripts/crd/render.go
 ./render --template_path=./deployment/deployment-template.yaml --mode=csv --csv_path=./id.csv
 ```
 

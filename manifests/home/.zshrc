@@ -120,7 +120,8 @@ alias zsh-reload="source ~/.zshrc"
 # Alias
 alias wget-dl='wget -U "Mozilla/5.0 (Macintosh\; Intel Mac OS X 11_2_3)" -P ~/Downloads'
 alias wget-mirror='wget -r -p -np -k -P'
-alias restart-container="kill -9 $(ps -ef|grep "/bin/sh /usr/bin/docker-entrypoint.sh" |grep -v grep |awk '{print $2}')"
+alias restart-container="kill -9 $(ps -ef|grep "/usr/local/bin/tini -- supervisord -n -c /etc/supervisor/supervisord.conf" |grep -v grep |awk '{print $2}')"
+alias launch-digital="java -jar /opt/Digital/Digital.jar"
 # alias rm=trash
 
 # PIP
