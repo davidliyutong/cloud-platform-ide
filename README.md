@@ -48,9 +48,27 @@ Code server for SPEIT IE course
 
 ## How to use
 
-The container expose port `3000`. If the container is behind proxy, then the proxy must support both HTTP and Websocket connections.
+This image can be deployed using `docker-compose`:
 
-Basically, the container provide an interface of code-server.
+```yaml
+version: '3'
+services:
+  ide:
+    image: davidliyutong/code-server-speit:dev
+    container_name: coder-dev
+    ports:
+      - 3000:3000
+      - 6080:80
+```
+
+```shell
+cd manifests/docker
+docker-compose up
+```
+
+The container expose port `3000` for coder IDE and `80` for noVNC. If the container is behind proxy, then the proxy must support both HTTP and Websocket connections.
+
+If no volume is mounted, all changes will be lost after container destruction. Consider mapping a volume to `/root`.
 
 ## Reboot the container
 
@@ -64,11 +82,9 @@ kill -9 $(ps -ef|grep "/usr/local/bin/tini -- supervisord -n -c /etc/supervisor/
 
 ## Reset the container
 
-The `home` directory will be packed copied to `/opt/home.tar.xz` of the container. During the initialization The entry script `run-coder.sh` will check the existence of `/root/.config/code-server/CONFIGURED`. If this file does not exist, the script will extrat the content of `/opt/home.tar.xz` to `/root`, which will overwrite `/root/.config`.
+The `home` directory will be packed copied to `/opt/home.tar.xz` of the container. During the initialization The entry script `run-coder.sh` will check the existence of `/root/.config/code-server/CONFIGURED`. If this file does not exist, the script will extrat the content of `/opt/home.tar.xz` to `/root`.
 
 To reset the container, simply perform delete `/root/.config/code-server/CONFIGURED` in the container and reboot the container.
-
-> Warning: this will reset password to default
 
 ## How to deploy to K8S clusters
 
@@ -78,7 +94,7 @@ Requirement:
  - default storage class configured
  - a tls secret to secure ingress traffic (optional)
 
-Their is this `deployment/deployment-template.yaml` template. During deployment the `{{ID}}` should be replaced with unique user identifiers. The lines marked with `CHANGE` me should be modified according to your cluster configuration
+There is this `deployment/deployment-template.yaml` template. During deployment the `{{ID}}` should be replaced with unique user identifiers. The lines marked with `CHANGE` me should be modified according to your cluster configuration
 
 ```yaml
 apiVersion: v1
