@@ -1,6 +1,8 @@
 # code-server-speit
 
-Code server for SPEIT IE course
+A WebIDE for SPEIT IE course
+
+![ScreenShot](images/screenshot.png)
 
 ## Introduction
 
