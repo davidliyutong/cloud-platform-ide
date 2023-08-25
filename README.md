@@ -45,8 +45,8 @@ A WebIDE for SPEIT IE course
             └── CONFIGURED
     ```
 
-2. Step 2: `script/build/build.sh`
-    Run `script/build/build.sh`
+2. Step 2: `script/build/{branch}/build.sh`
+    Run `script/build/{branch}/build.sh` such as `script/build/base/build.sh`
 
 ## How to use
 
@@ -64,7 +64,7 @@ services:
 ```
 
 ```shell
-cd manifests/docker
+cd manifests/docker-compose
 docker-compose up
 ```
 
@@ -102,33 +102,35 @@ There is this `deployment/deployment-template.yaml` template. During deployment 
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: code-server-pvc-${{ ID }}
+  labels:
+    k8s-app: ${{ POD_LABEL }}
+  name: clpl-pvc-${{ POD_ID }}
 spec:
   accessModes:
   - ReadWriteOnce
   resources:
     requests:
-      storage: 10Gi # CHANGEME Storage Limit
+      storage: ${{ POD_STORAGE_LIM }} # CHANGE ME Storage Limit
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    k8s-app: apps.code-server-${{ ID }}
-  name: code-server-${{ ID }}
+    k8s-app: ${{ POD_LABEL }}
+  name: clpl-${{ POD_ID }}
 spec:
-  replicas: 1
+  replicas: ${{ POD_REPLICAS }}
   selector:
     matchLabels:
-      k8s-app: apps.code-server-${{ ID }}
+      k8s-app: ${{ POD_LABEL }}
   template:
     metadata:
       labels:
-        k8s-app: apps.code-server-${{ ID }}
+        k8s-app: ${{ POD_LABEL }}
     spec:
       containers:
-      - image: davidliyutong/code-server-speit:v4.9.1 # CHANGEME
-        imagePullPolicy: IfNotPresent
+      - image: ${{ POD_IMAGE_REF }} # CHANGE ME
+        imagePullPolicy: Always
         name: container-0
         ports:
         - containerPort: 3000
@@ -137,10 +139,10 @@ spec:
         - containerPort: 80
           name: 80tcp
           protocol: TCP
-        resources: # CHANGEME
+        resources: # CHANGE ME
           limits:
-            cpu: "4"
-            memory: 4Gi
+            cpu: ${{ POD_CPU_LIM }}
+            memory: ${{ POD_MEM_LIM }}
           requests:
             cpu: 50m
             memory: 512Mi
@@ -158,12 +160,14 @@ spec:
       volumes:
       - name: home
         persistentVolumeClaim:
-          claimName: code-server-pvc-${{ ID }}
+          claimName: clpl-pvc-${{ POD_ID }}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: code-server-svc-${{ ID }}
+  labels:
+    k8s-app: ${{ POD_LABEL }}
+  name: clpl-svc-${{ POD_ID }}
 spec:
   ports:
   - name: 3000tcp
@@ -175,47 +179,51 @@ spec:
     protocol: TCP
     targetPort: 80
   selector:
-    k8s-app: apps.code-server-${{ ID }}
+    k8s-app: ${{ POD_LABEL }}
   sessionAffinity: None
   type: ClusterIP
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  annotations: 
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
-    nginx.ingress.kubernetes.io/proxy-body-size: "4096M"
-  name: coder-server-ingress-${{ ID }}
+  labels:
+    k8s-app: ${{ POD_LABEL }}
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "40960M"
+    nginx.ingress.kubernetes.io/auth-realm: Enter your credentials
+    nginx.ingress.kubernetes.io/auth-secret: ${{ POD_AUTH }}
+    nginx.ingress.kubernetes.io/auth-type: basic
+  name: clpl-ingress-${{ POD_ID }}
 spec:
-  ingressClassName: public
+  ingressClassName: nginx # CHANGE ME
   rules:
-  - host: ${{ CODE_HOSTNAME }} # CHANGEME
+  - host: ${{ POD_ID }}.${{ CONFIG_CODER_HOSTNAME }} # CHANGE ME
     http:
       paths:
       - backend:
           service:
-            name: code-server-svc-${{ ID }}
+            name: clpl-svc-${{ POD_ID }}
             port:
               number: 3000
-        path: /${{ ID }}(/|$)(.*)
+        path: /
         pathType: Prefix
-  - host: ${{ VNC_HOSTNAME }} # CHANGEME
+  - host: ${{ POD_ID }}.${{ CONFIG_VNC_HOSTNAME }} # CHANGE ME
     http:
       paths:
       - backend:
           service:
-            name: code-server-svc-${{ ID }}
+            name: clpl-svc-${{ POD_ID }}
             port:
               number: 6080
-        path: /${{ ID }}(/|$)(.*)
+        path: /
         pathType: Prefix
   tls:
   - hosts:
-    - ${{ CODE_HOSTNAME }} # CHANGEME hostname
-    secretName: ${{ CODE_TLS_SECRET }} # CHANGEME TLS Secret
+    - ${{ POD_ID }}.${{ CONFIG_CODER_HOSTNAME }} # CHANGE ME hostname
+    secretName: ${{ CONFIG_CODER_TLS_SECRET }} # CHANGE ME TLS Secret
   - hosts:
-    - ${{ VNC_HOSTNAME }} # CHANGEME hostname
-    secretName: ${{ VNC_TLS_SECRET }} # CHANGEME TLS Secret
+    - ${{ POD_ID }}.${{ CONFIG_VNC_HOSTNAME }} # CHANGE ME hostname
+    secretName: ${{ CONFIG_VNC_TLS_SECRET }} # CHANGE ME TLS Secret
 ```
 
 Apply the rendered template with `kubectl`

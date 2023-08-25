@@ -47,16 +47,8 @@ RUN mkdir /usr/lib/code-server && \
     ln -s /usr/lib/code-server/bin/code-server /usr/bin/code-server
 
 
-## Install iverilog
-COPY manifests/install-scripts/setup-iverilog.sh /tmp/setup-iverilog.sh
-RUN /bin/bash /tmp/setup-iverilog.sh
-
-## Install Digital
-COPY manifests/install-scripts/setup-digital.sh /tmp/setup-digital.sh
-RUN /bin/bash /tmp/setup-digital.sh
-
 # Misc
-COPY .cache/home.tar.xz /opt/home.tar.xz
+COPY .cache/home.base.tar.xz /opt/home.tar.xz
 COPY manifests/install-scripts/run-coder.sh /usr/bin/run-coder.sh
 COPY manifests/supervisord.conf.diff /tmp/supervisord.conf.diff
 RUN chmod +x /usr/bin/run-coder.sh && \
@@ -73,4 +65,3 @@ RUN apt-get clean && \
 WORKDIR /root
 EXPOSE 3000 80
 CMD ["/usr/bin/supervisord"]
-# ENTRYPOINT  [ "sh", "-c", "/usr/bin/docker-entrypoint.sh" ]
