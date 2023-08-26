@@ -12,7 +12,7 @@ A WebIDE for SPEIT IE course
 
 1. Step 1: `scrips/build/bootstrap.sh`
 
-    Run `scrips/build/bootstrap.sh` to download coder-server release
+    Run `scrips/build/bootstrap.sh` to download code-server release
 
     Usage:
 
