@@ -1,7 +1,7 @@
 FROM davidliyutong/code-server-speit:latest-base
 
 RUN apt-get update && \
-    apt-get install -y wxmaxima
+    apt-get install -y --fix-missing wxmaxima
 
 # Misc
 # COPY .cache/home.ie.tar.xz /opt/home.tar.xz

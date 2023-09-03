@@ -12,7 +12,7 @@ RUN /bin/bash /tmp/setup-digital.sh
 COPY .cache/home.aio.tar.xz /opt/home.tar.xz
 
 RUN apt-get update && \
-    apt-get install -y wxmaxima
+    apt-get install -y --fix-missing wxmaxima
 
 # Clean Up
 RUN apt-get clean && \

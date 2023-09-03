@@ -232,6 +232,16 @@ Apply the rendered template with `kubectl`
 kubectl apply -f deployment/deployment.id.yaml -n <namespace>
 ```
 
+### SSH
+
+SSH connection is exposed via [websocat](https://github.com/vi/websocat) at port 2222. Here is an example:
+
+```shell
+Host ws.speit-virtualmachine
+    HostName pod_id.ssh.example.com
+    ProxyCommand websocat --binary ws://pod_id.ssh.example.com
+```
+
 ### render
 
 `scripts/crd/render.go` provide a simple render of template that can replace `${{ ID }}` with from `csv` file or integers. For example

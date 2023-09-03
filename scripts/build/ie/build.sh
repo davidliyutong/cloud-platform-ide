@@ -25,4 +25,4 @@ set +e
 
 # Docker Build
 docker build --build-arg HTTP_PROXY=$HTTP_PROXY -t $AUTHOR/code-server-speit:$TAG-ie -f manifests/docker/ie/Dockerfile .
-docker tag $AUTHOR/code-server-speit:$TAG $AUTHOR/code-server-speit:latest-ie
+docker tag $AUTHOR/code-server-speit:$TAG-ie $AUTHOR/code-server-speit:latest-ie

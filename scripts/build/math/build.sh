@@ -25,4 +25,4 @@ set +e
 
 # Docker Build
 docker build --build-arg HTTP_PROXY=$HTTP_PROXY -t $AUTHOR/code-server-speit:$TAG-math -f manifests/docker/math/Dockerfile .
-docker tag $AUTHOR/code-server-speit:$TAG $AUTHOR/code-server-speit:latest-math
+docker tag $AUTHOR/code-server-speit:$TAG-math $AUTHOR/code-server-speit:latest-math

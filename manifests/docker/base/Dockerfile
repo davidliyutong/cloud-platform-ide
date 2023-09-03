@@ -11,7 +11,7 @@ RUN sed -i s@/archive.ubuntu.com/@/mirror.sjtu.edu.cn/@g /etc/apt/sources.list &
     sed -i s@/security.ubuntu.com/@/mirror.sjtu.edu.cn/@g /etc/apt/sources.list
 
 # Install packages
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install --fix-missing -y \
     python3 python3-pip \
     git htop vim wget curl tree zsh bison\
     tmate tmux \
@@ -23,6 +23,7 @@ RUN apt-get update && apt-get install -y \
     cmake ninja-build meson autoconf \
     jq \
     openssh-client openssh-server \
+    openssh-server \
     supervisor
     # ubuntu-desktop gnome-panel gnome-settings-daemon metacity nautilus gnome-terminal
 
@@ -48,6 +49,11 @@ RUN mkdir /usr/lib/code-server && \
 
 
 # Misc
+COPY .cache/websocat /usr/bin/websocat
+RUN mkdir -p /run/sshd && \
+    echo "PasswordAuthentication no" >> /etc/ssh/sshd_config && \
+    chmod +x /usr/bin/websocat
+
 COPY .cache/home.base.tar.xz /opt/home.tar.xz
 COPY manifests/install-scripts/run-coder.sh /usr/bin/run-coder.sh
 COPY manifests/supervisord.conf.diff /tmp/supervisord.conf.diff
@@ -63,5 +69,5 @@ RUN apt-get clean && \
 
 
 WORKDIR /root
-EXPOSE 3000 80
+EXPOSE 3000 80 2222
 CMD ["/usr/bin/supervisord"]

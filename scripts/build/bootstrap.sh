@@ -28,6 +28,21 @@ else
     echo "$DOWNLOAD_DESTINATION exists, skipping download"
 fi
 
+# download websocat
+VERSION=$(curl -sL https://api.github.com/repos/vi/websocat/releases/latest | jq -r ".tag_name")
+VERSION=${VERSION:1} # Remove character 'v'
+
+echo "VERSION: $VERSION"
+
+DOWNLOAD_DESTINATION=".cache/websocat"
+if [[ ! -f $DOWNLOAD_DESTINATION ]]; then
+    echo "Downloading src tarball for $ARCH"
+    wget https://github.com/vi/websocat/releases/download/v$VERSION/websocat.x86_64-unknown-linux-musl -O $DOWNLOAD_DESTINATION
+else
+    echo "$DOWNLOAD_DESTINATION exists, skipping download"
+fi
+
+
 # Build template render if go exists. Output directory is build/
 if [[ -x "$(command -v go)" ]]; then
     mkdir -p build
