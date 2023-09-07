@@ -3,6 +3,10 @@ FROM davidliyutong/code-server-speit:latest-base
 RUN apt-get update && \
     apt-get install -y --fix-missing wxmaxima
 
+## Install GeoGeBra
+COPY manifests/install-scripts/setup-geogebra.sh /tmp/setup-geogebra.sh
+RUN /bin/bash /tmp/setup-geogebra.sh
+
 # Misc
 # COPY .cache/home.ie.tar.xz /opt/home.tar.xz
 
@@ -13,6 +17,6 @@ RUN apt-get clean && \
 
 
 WORKDIR /root
-EXPOSE 3000 80
-CMD ["/usr/bin/supervisord"]
-# ENTRYPOINT  [ "sh", "-c", "/usr/bin/docker-entrypoint.sh" ]
+EXPOSE 3000 80 2222
+ENTRYPOINT [ "/bin/bash" ]
+CMD [ "/usr/bin/entrypoint.sh" ]

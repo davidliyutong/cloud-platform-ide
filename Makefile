@@ -1,5 +1,5 @@
 HTTP_PROXY=http://192.168.105.2:7890
-AUTHOR=davidliyutong
+AUTHOR:=davidliyutong
 TAG=$(shell git describe --abbrev=0)
 
 bootstrap:

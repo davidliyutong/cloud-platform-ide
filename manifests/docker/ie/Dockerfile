@@ -18,6 +18,6 @@ RUN apt-get clean && \
 
 
 WORKDIR /root
-EXPOSE 3000 80
-CMD ["/usr/bin/supervisord"]
-# ENTRYPOINT  [ "sh", "-c", "/usr/bin/docker-entrypoint.sh" ]
+EXPOSE 3000 80 2222
+ENTRYPOINT [ "/bin/bash" ]
+CMD [ "/usr/bin/entrypoint.sh" ]

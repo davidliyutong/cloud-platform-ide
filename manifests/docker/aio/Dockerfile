@@ -8,6 +8,10 @@ RUN /bin/bash /tmp/setup-iverilog.sh
 COPY manifests/install-scripts/setup-digital.sh /tmp/setup-digital.sh
 RUN /bin/bash /tmp/setup-digital.sh
 
+## Install GeoGeBra
+COPY manifests/install-scripts/setup-geogebra.sh /tmp/setup-geogebra.sh
+RUN /bin/bash /tmp/setup-geogebra.sh
+
 # Misc
 COPY .cache/home.aio.tar.xz /opt/home.tar.xz
 
@@ -21,6 +25,6 @@ RUN apt-get clean && \
 
 
 WORKDIR /root
-EXPOSE 3000 80
-CMD ["/usr/bin/supervisord"]
-# ENTRYPOINT  [ "sh", "-c", "/usr/bin/docker-entrypoint.sh" ]
+EXPOSE 3000 80 2222
+ENTRYPOINT [ "/bin/bash" ]
+CMD [ "/usr/bin/entrypoint.sh" ]

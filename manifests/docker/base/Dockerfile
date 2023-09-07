@@ -24,8 +24,11 @@ RUN apt-get update && apt-get install --fix-missing -y \
     jq \
     openssh-client openssh-server \
     openssh-server \
+    flatpak \
+    rsync \
     supervisor
-    # ubuntu-desktop gnome-panel gnome-settings-daemon metacity nautilus gnome-terminal
+
+RUN flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
 # Install Miniconda
 RUN wget --quiet https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /tmp/miniconda.sh && \
@@ -55,9 +58,9 @@ RUN mkdir -p /run/sshd && \
     chmod +x /usr/bin/websocat
 
 COPY .cache/home.base.tar.xz /opt/home.tar.xz
-COPY manifests/install-scripts/run-coder.sh /usr/bin/run-coder.sh
+COPY manifests/install-scripts/entrypoint.sh /usr/bin/entrypoint.sh
 COPY manifests/supervisord.conf.diff /tmp/supervisord.conf.diff
-RUN chmod +x /usr/bin/run-coder.sh && \
+RUN chmod +x /usr/bin/entrypoint.sh && \
     chsh -s /bin/zsh && \
     mkdir -p /var/log/supervisor && \
     cat /tmp/supervisord.conf.diff >> /etc/supervisor/conf.d/supervisord.conf
@@ -68,6 +71,16 @@ RUN apt-get clean && \
     rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
 
 
-WORKDIR /root
+# Allow 'ubuntu' to run sudo commands without password by modifying the sudoers file
+RUN echo "ubuntu ALL=(ALL:ALL) NOPASSWD: ALL" | sudo EDITOR='tee -a' visudo
+
+
+# USER ubuntu
+WORKDIR /home/ubuntu
+ENV SHELL=/bin/zsh \
+    USERNAME=ubuntu \
+    USERID=1000 \
+    PASSWORD=ubuntu
 EXPOSE 3000 80 2222
-CMD ["/usr/bin/supervisord"]
+ENTRYPOINT [ "/bin/bash" ]
+CMD [ "/usr/bin/entrypoint.sh" ]

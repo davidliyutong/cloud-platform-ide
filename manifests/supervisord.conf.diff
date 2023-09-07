@@ -1,9 +1,10 @@
 
 [program:code]
-command=/bin/sh /usr/bin/run-coder.sh
+command=code-server --bind-addr 0.0.0.0:3000 --auth none --cert false
 stdout_logfile=/dev/fd/1
 stdout_logfile_maxbytes=0
 redirect_stderr=true
+user=ubuntu
 
 [program:ssh]
 command=/usr/sbin/sshd -D
