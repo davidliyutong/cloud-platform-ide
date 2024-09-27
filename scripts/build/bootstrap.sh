@@ -20,6 +20,8 @@ if [[ ! -n $VERSION ]]; then
 fi
 echo "VERSION: $VERSION"
 
+mkdir .cache
+
 DOWNLOAD_DESTINATION=".cache/code-server.tar.gz"
 if [[ ! -f $DOWNLOAD_DESTINATION ]]; then
     echo "Downloading src tarball for $ARCH"
