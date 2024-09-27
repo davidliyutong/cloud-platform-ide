@@ -10,8 +10,6 @@ if [[ -z $TAG ]]; then
 fi
 echo "TAG: $TAG"
 
-echo "HTTP_PROXY: $HTTP_PROXY"
-
 # Prepare home.tar.gz
 PATH_OF_HOME=build/home/math
 set -e
@@ -24,5 +22,5 @@ tar -cf - -C $PATH_OF_HOME . | pv -s $(du -sb $PATH_OF_HOME | awk '{print $1}') 
 set +e
 
 # Docker Build
-docker build --build-arg HTTP_PROXY=$HTTP_PROXY -t $AUTHOR/code-server-speit:$TAG-math -f manifests/docker/math/Dockerfile .
+docker build -t $AUTHOR/code-server-speit:$TAG-math -f manifests/docker/math/Dockerfile .
 docker tag $AUTHOR/code-server-speit:$TAG-math $AUTHOR/code-server-speit:latest-math
