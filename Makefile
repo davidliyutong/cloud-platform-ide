@@ -17,7 +17,10 @@ build.math:
 build.aio:
 	export HTTP_PROXY=${HTTP_PROXY}; export AUTHOR=${AUTHOR}; export TAG=${TAG}; scripts/build/aio/build.sh
 
-build.all: build.base build.ie build.math build.aio
+build.kathara:
+	export HTTP_PROXY=${HTTP_PROXY}; export AUTHOR=${AUTHOR}; export TAG=${TAG}; scripts/build/kathara/build.sh
+
+build.all: build.base build.ie build.math build.aio build.kathara
 
 push.all:
 	docker push ${AUTHOR}/code-server-speit:${TAG}-base
