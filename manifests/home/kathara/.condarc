@@ -1,0 +1,4 @@
+envs_dirs:
+  - /root/.conda/envs
+pkgs_dirs:
+  - /root/.conda/pkgs
