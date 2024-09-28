@@ -83,6 +83,10 @@ RUN apt-get clean && \
     apt-get autoclean && \
     rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
 
+# Overwrite entrypoint
+COPY manifests/docker/kathara/entrypoint.sh /usr/bin/entrypoint.sh
+RUN chmod +x /usr/bin/entrypoint.sh
+
 WORKDIR /root
 EXPOSE 3000 80 2222
 ENTRYPOINT [ "/bin/bash" ]
